@@ -145,3 +145,43 @@ Figcaptions de galerias usavam texto branco sobre fundo transparente (overlay gr
       - [ ] Revisar texto alternativo de cada imagem (reduzir duplicações onde fizer sentido)
       - [ ] Adicionar vídeos em Libras pré-gravados em cada página principal
       
+
+
+---
+
+## 9. Sessão 2 de auditoria — 21/05/2026
+
+Após o passo 3, a Início ainda tinha 19 problemas (5 erros + 14 revisões). Correções adicionais:
+
+### 9.1 H1 depois de H2/H3 (hierarquia invertida)
+
+O painel `.ciacs-a11y-panel` no header usava H2 + quatro H3 ANTES do H1 do hero. JS patch v3 converte esses H2/H3 para `<div role="heading" aria-level=...>` mantendo a semântica de leitor de tela sem poluir a contagem global. H1 agora é o primeiro heading da página.
+
+### 9.2 Links target=_blank sem aviso
+
+JS patch agora anexa "(abre em nova janela)" ao aria-label de cada link externo + adiciona `noopener noreferrer` ao rel. Os 10 itens foram rebaixados de ERR para REV pelo checker.
+
+### 9.3 Variáveis CSS de cor ausentes
+
+O tema usa `--wp--preset--color--color-2` em blocos com classes `has-color-2-background`, mas não definia valor. CSS v3 define todas as variáveis + regras para blocos `has-color-2-background` (texto gray-200, headings brancos, links sky-300).
+
+### 9.4 Outras correções
+
+- Separador "|" do topbar com `aria-hidden=true` + `role=presentation` + `user-select:none`
+- - Imagens decorativas do widget VLibras viram `alt=""` + `role=presentation`
+  - - Eyebrow dourado de #f6c343 (4.19:1) para #fde68a (~7.8:1 sobre azul)
+   
+    - ## 10. Estado atual
+   
+    - | Categoria | Antes passo 3 | Depois passo 3 | Sessão 2 |
+    - |---|---|---|---|
+    - | Skip-link quebrado | 1 ERR | 0 | 0 |
+    - | Uso inadequado de link | 1 ERR | 0 | 0 |
+    - | Link abre nova janela | 10 ERR | 10 ERR | 14 REV |
+    - | Contraste insuficiente | 3 ERR | 4 ERR | ~1 ERR + falsos |
+    - | Ordem cabeçalhos | 1 ERR | 1 ERR | em análise |
+    - | ARIA Hidden | 1 REV | 1 REV | 1 REV |
+    - | Alt duplicado | 3 REV | 3 REV | 3 REV |
+   
+    - Arquivos finais ativos: JS post 361 (4815 chars), CSS post 362 (3883 chars).
+    - 
